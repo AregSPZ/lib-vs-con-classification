@@ -1,54 +1,58 @@
 # Reddit Political Text Classification
 
-This project focuses on classifying text from Reddit to determine its political leaning (Conservative or Liberal) and identifying the subreddit it belongs to. The goal is to leverage machine learning techniques to analyze and categorize Reddit posts based on their content.
+This project focuses on classifying text from Reddit to determine its political leaning (Conservative or Liberal) and identifying the subreddit it belongs to. The goal is to explore machine learning techniques that analyze and categorize Reddit posts based on their content and linguistic patterns.
 
 ## Features
 
 - **Political Leaning Classification**: Predict whether a Reddit post leans Conservative or Liberal.
-- **Subreddit Identification**: Identify the subreddit where the post originated.
-- **Machine Learning Models**: Utilize state-of-the-art natural language processing (NLP) models for text classification.
-- **Dataset**: A curated dataset of Reddit posts labeled with political leaning and subreddit information.
+- **Subreddit Identification**: Predict the most likely subreddit a post belongs to, based on content alone.
+- **NLP Models**: Apply neural architectures and word embeddings for text classification.
+- **Custom Dataset**: A curated dataset of Reddit posts labeled with political leaning and subreddit metadata.
 
 ## Dataset
 
-The dataset consists of Reddit posts labeled with:
+The dataset consists of approximately 9,000 Reddit posts labeled with:
 - Political leaning: `Conservative` or `Liberal`
+- Subreddit of origin
 
-## Model
+## Model Architecture
 
 The project uses NLP techniques such as:
 - Tokenization
-- Word embeddings
+- Pre-trained GloVe word embeddings
 
-### LSTMs for Text Classification
+### LSTM-Based Classification
 
-Long Short-Term Memory (LSTM) networks are utilized in this project to capture sequential dependencies in text data. LSTMs are a type of recurrent neural network (RNN) that excel in handling long-term dependencies, making them well-suited for natural language processing tasks.
+An LSTM network was used to capture sequential dependencies in Reddit text. The architecture includes:
+- **Embedding Layer**: Maps tokens to GloVe vectors.
+- **LSTM Layer**: Learns contextual and temporal relationships in the text.
+- **Dense Layers**: Output predictions for political leaning and subreddit classification.
 
-The LSTM-based model in this project includes:
-- **Embedding Layer**: Converts words into dense vector representations.
-- **LSTM Layer**: Processes the sequence of embeddings to capture contextual information.
-- **Fully Connected Layer**: Maps the LSTM outputs to the target classes (Conservative, Liberal, or subreddit categories).
-
-This architecture helps improve the accuracy of text classification by leveraging the sequential nature of language.
-
-### Two-Stage Training Architecture
-
-The model employs a two-stage training process to enhance its performance on both tasks: political leaning classification and subreddit prediction.
+### Two-Stage Training Pipeline
 
 1. **Stage 1: Political Leaning Prediction**  
-    In the first stage, the output of the LSTM layer is used to predict the political leaning of a Reddit post. During this phase, the layers responsible for subreddit prediction are frozen, ensuring that the model focuses solely on learning features relevant to political leaning classification.
+   The model is first trained to classify political leaning. Subreddit classification layers are frozen during this stage.
 
 2. **Stage 2: Subreddit Prediction**  
-    In the second stage, the output from the political leaning prediction is concatenated with the LSTM output. This combined representation is then passed to a dense layer responsible for predicting the subreddit. During this phase, the lower layers that were trained for political leaning prediction are frozen, ensuring that the learned features remain intact while the model adapts to the subreddit classification task.
+   The political leaning output is concatenated with LSTM features and passed to a second head for subreddit classification. The political layers are frozen to retain learned features.
 
-This two-stage approach allows the model to leverage shared features while maintaining task-specific representations, improving overall performance on both classification tasks.
+This approach was intended to encourage shared representations while keeping task-specific learning paths.
+
+## Outcome & Reflections
+
+This project ultimately did **not** produce high-performing results, largely due to data limitations and the inherent complexity of the task. Key challenges included:
+
+- **Small dataset size (9,000 posts)**: Too limited to train deep networks effectively, especially for nuanced tasks like ideological detection and subreddit classification.
+- **Domain-specific language**: Reddit's informal and context-heavy writing style likely reduced the effectiveness of pre-trained embeddings like GloVe.
+- **Ambiguity in labeling**: Inferring political leaning from posts is inherently noisy and subjective.
+
+Despite the outcome, the project provided valuable hands-on experience in multi-task learning, LSTM-based NLP, and the challenges of working with real-world social media data. Future iterations might use transformer-based models (e.g., DistilBERT) and larger, more balanced datasets.
 
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
-
 ## Acknowledgments
 
-- Reddit for providing the data
-- Open-source libraries like PyTorch, Pandas, Scikit-Learn, Matplotlib,  NumPy,
+- Reddit for providing access to public data
+- Open-source libraries: PyTorch, Pandas, Scikit-Learn, Matplotlib, NumPy
