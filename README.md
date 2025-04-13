@@ -23,7 +23,7 @@ The project uses NLP techniques such as:
 
 ### LSTM-Based Classification
 
-An LSTM network was used to capture sequential dependencies in Reddit text. The architecture includes:
+A `bidirectional` LSTM network was used to capture sequential dependencies in Reddit text from both directions. The architecture includes:
 - **Embedding Layer**: Maps tokens to GloVe vectors.
 - **LSTM Layer**: Learns contextual and temporal relationships in the text.
 - **Dense Layers**: Output predictions for political leaning and subreddit classification.
